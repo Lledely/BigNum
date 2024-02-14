@@ -11,15 +11,29 @@
 
 namespace bignum{
 
+    // std::string operator ""_bn();
+
     class BigNum {
 
         public:
 
             BigNum(const std::string &num);
+            BigNum(const int);
+            BigNum(const long);
+            BigNum(const long long);
+            BigNum(const float);
+            BigNum(const double);
+
+            friend const BigNum operator+(const BigNum &a, const BigNum &b);
+            friend const BigNum operator-(const BigNum &a, const BigNum &b);
+            friend const BigNum operator*(const BigNum &a, const BigNum &b);
+            friend const BigNum operator/(const BigNum &a, const BigNum &b);
+            const BigNum operator-();
 
         private:
 
             std::vector<CHUNK_TYPE> _chunks;
+            bool _is_neg;
 
     };
 
