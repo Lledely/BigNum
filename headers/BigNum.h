@@ -4,14 +4,14 @@
 #include <string>
 #include <cmath>
 #include <inttypes.h>
+#include <algorithm>
+#include <stdexcept>
 
 #define CHUNK 64
 #define CHUNK_LEN 9
 #define CHUNK_TYPE uint64_t
 
 namespace bignum{
-
-    // std::string operator ""_bn();
 
     class BigNum {
 
@@ -28,6 +28,12 @@ namespace bignum{
             friend const BigNum operator-(const BigNum &left, const BigNum &right);
             friend const BigNum operator*(const BigNum &left, const BigNum &right);
             friend const BigNum operator/(const BigNum &left, const BigNum &right);
+
+            const BigNum& operator+=(const BigNum &right);
+            const BigNum& operator-=(const BigNum &right);
+            const BigNum& operator*=(const BigNum &right);
+            const BigNum& operator/=(const BigNum &right);
+
             const BigNum operator-();
 
             friend bool operator<=(const BigNum &left, const BigNum &right);
@@ -38,12 +44,12 @@ namespace bignum{
             friend bool operator>(const BigNum &left, const BigNum &right);
 
             friend const BigNum operator"" _bn(long double);
-            operator std::string();
+            std::string to_string() const;
 
         private:
 
             std::vector<CHUNK_TYPE> _chunks;
-
+            int64_t _fraction_shift;
             bool _is_neg;
 
     };
