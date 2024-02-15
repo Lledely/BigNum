@@ -43,8 +43,9 @@ namespace bignum{
             friend bool operator<(const BigNum &left, const BigNum &right);
             friend bool operator>(const BigNum &left, const BigNum &right);
 
-            friend const BigNum operator"" _bn(long double);
+            friend const BigNum operator""_bn(long double);
             std::string to_string() const;
+            explicit operator bool();
 
         private:
 
@@ -53,5 +54,5 @@ namespace bignum{
             bool _is_neg;
 
     };
-    const BigNum operator"" _bn(long double);
+    const BigNum operator""_bn(long double);
 }
