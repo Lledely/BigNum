@@ -2,6 +2,7 @@
 #include <iostream>
 
 int main() {
-    std::cout << 123;
+    bignum::BigNum a = bignum::BigNum(std::string("69420"));
+    std::cout << a.to_string() << std::endl;
     return 0;
 }

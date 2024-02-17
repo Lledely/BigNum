@@ -23,6 +23,7 @@ namespace bignum{
             BigNum(const long long);
             BigNum(const float);
             BigNum(const double);
+            BigNum(long double);
 
             friend const BigNum operator+(const BigNum &left, const BigNum &right);
             friend const BigNum operator-(const BigNum &left, const BigNum &right);
@@ -45,7 +46,7 @@ namespace bignum{
 
             friend const BigNum operator""_bn(long double);
             std::string to_string() const;
-            explicit operator bool();
+            explicit operator bool() const;
 
         private:
 
