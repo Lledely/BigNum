@@ -9,12 +9,12 @@ namespace bignum {
         }
         for (long long i = 0; i <  _chunks.size(); ++i) {
             if (i != 0) {
-                long long tmp = 10, tmp_cnt = 0;
+                long long tmp = 10, tmp_cnt = 1;
                 while (tmp < _chunks[i]) {
                     tmp *= 10;
                     ++tmp_cnt;
                 }
-                for (int _ = 0; _ < 10 - tmp_cnt; ++_) {
+                for (int _ = 0; _ < 9 - tmp_cnt; ++_) {
                     to_ret += '0';
                 }
             }
@@ -27,6 +27,17 @@ namespace bignum {
     }
 
     BigNum::operator bool() const {
-        return true; 
+        for (auto i: _chunks) {
+            if (i != 0) {
+                return true;
+            }
+        } 
+        return false;
+    }
+
+    const BigNum BigNum::operator -() {
+        BigNum tmp = *this;
+        tmp._is_neg = !(tmp._is_neg);
+        return tmp;
     }
 }

@@ -40,5 +40,31 @@ namespace bignum{
             _chunks.push_back(std::stoll(new_string.substr(std::max(0ll, i - CHUNK_LEN), std::min(static_cast<long long>(CHUNK_LEN), i))));
 
         }
+        reverse(_chunks.begin(), _chunks.end());
     }
+
+    BigNum::BigNum(const int num) {
+        BigNum(std::to_string(num));
+    }
+
+    BigNum::BigNum(const long num) {
+        BigNum(std::to_string(num));
+    }
+    
+    BigNum::BigNum(const long long num) {
+        BigNum(std::to_string(num));
+    }
+    
+    BigNum::BigNum(const float num) {
+        BigNum(std::to_string (num));
+    }
+
+    BigNum::BigNum(const double num) {
+        BigNum(std::to_string(num)); 
+    }
+    
+    BigNum::BigNum(const char* num) {
+        BigNum(std::string(num));
+    }
+
 }
