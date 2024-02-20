@@ -6,6 +6,7 @@
 #include <inttypes.h>
 #include <algorithm>
 #include <stdexcept>
+#include <iostream>
 
 #define CHUNK 64
 #define CHUNK_LEN 9

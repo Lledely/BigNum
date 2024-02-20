@@ -2,13 +2,14 @@
 #include <iostream>
 
 int main() {
-    bignum::BigNum a = bignum::BigNum(std::string("12300000000045667"));
-    bignum::BigNum b = bignum::BigNum(std::string("123"));
-    std::cout << "a = " << a.to_string() << "\n";
-    std::cout << "b = " << b.to_string() << "\n";
-    std::cout << (a <= b) << std::endl;
-    std::cout << (a == b) << std::endl;
-    std::cout << (a >= b) << std::endl;
+    bignum::BigNum a = bignum::BigNum(std::string("2"));
+    bignum::BigNum b = bignum::BigNum("2");
+    std::cout << "a = " << a.to_string() << std::endl;
+    std::cout << "b = " << b.to_string() << std::endl;
+    std::cout << a.to_string() << " + " << b.to_string() << " = " << (a + b).to_string() << std::endl;
+    // std::cout << (a <= b) << std::endl;
+    // std::cout << (a == b) << std::endl;
+    // std::cout << (a >= b) << std::endl;
 
     return 0;
 }

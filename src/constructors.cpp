@@ -41,30 +41,23 @@ namespace bignum{
 
         }
         reverse(_chunks.begin(), _chunks.end());
+        if (!bool(*this)) {
+            this->_chunks = std::vector<uint64_t>({0ull});
+            this->_fraction_shift = 0;
+            this->_is_neg = false;
+        }
     }
 
-    BigNum::BigNum(const int num) {
-        BigNum(std::to_string(num));
-    }
+    BigNum::BigNum(const int num): BigNum(std::to_string(num)) {}
+  
+    BigNum::BigNum(const long num): BigNum(std::to_string(num)) {}
+    
+    BigNum::BigNum(const long long num): BigNum(std::to_string(num)) {}
+    
+    BigNum::BigNum(const float num): BigNum(std::to_string (num)) {}
 
-    BigNum::BigNum(const long num) {
-        BigNum(std::to_string(num));
-    }
+    BigNum::BigNum(const double num): BigNum(std::to_string(num)) {}
     
-    BigNum::BigNum(const long long num) {
-        BigNum(std::to_string(num));
-    }
-    
-    BigNum::BigNum(const float num) {
-        BigNum(std::to_string (num));
-    }
-
-    BigNum::BigNum(const double num) {
-        BigNum(std::to_string(num)); 
-    }
-    
-    BigNum::BigNum(const char* num) {
-        BigNum(std::string(num));
-    }
+    BigNum::BigNum(const char* num): BigNum(std::string(num)) {}
 
 }

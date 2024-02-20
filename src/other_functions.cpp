@@ -23,6 +23,9 @@ namespace bignum {
         if (_fraction_shift != 0) {
             to_ret.insert(to_ret.size() - _fraction_shift + 1, ".");
         }
+        if (to_ret[0] == '.') {
+            to_ret.insert(0, "0");
+        }
         return to_ret;
     }
 
