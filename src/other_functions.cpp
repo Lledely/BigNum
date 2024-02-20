@@ -51,11 +51,94 @@ namespace bignum {
         return BigNum(num);
     }
 
-    const std::string _whole() {
-        std::string num = this;
+    const std::string BigNum::_whole() const {
+        std::string num = (*this).to_string();
+        if (num[0] == '-') {
+            num.erase(0, 1);
+        }
+        if (std::count(num.begin(), num.end(), '.') == 0) {
+            return num;
+        }
+        int pos = num.find('.');
+        return num.substr(0, pos);
     }
 
-    const std::string _frac() {
-
+    const std::string BigNum::_frac() const {
+        std::string num = (*this).to_string();
+        if (std::count(num.begin(), num.end(), '.') == 0) {
+            return std::string("0");
+        }
+        int pos = num.find('.');
+        return num.substr(pos + 1, num.size() - pos);
     }
+
+    const std::string BigNum::_str_sum(const std::string left, const std::string right) {
+        std::string a = left, b = right;
+        if(a.size() < b.size()) {
+            swap(a, b);
+        }
+
+        int j = a.size() - 1;
+        for(int i=b.size() - 1; i>=0; --i, --j) {
+            a[j]+=(b[i] - '0');
+        }
+
+        for(int i = a.size() - 1; i > 0; --i) {
+            if(a[i] > '9')
+            {
+                int tmp_left = a[i] - '0';
+                a[i-1] = ((a[i - 1] - '0') + tmp_left / 10) + '0';
+                a[i] = (tmp_left % 10)+'0';
+            }
+        }
+
+        if(a[0] > '9') {
+            std::string tmp;
+            tmp += a[0];
+            a[0] = ((a[0] - '0') % 10) + '0';
+            tmp[0] = ((tmp[0] - '0') / 10) + '0';
+            a = tmp + a;
+        }
+        return a;
+    }
+
+    const std::string BigNum::_str_sub(const std::string left, const std::string right) {
+        std::string a = left, b = right;
+        int n = a.length(), m = b.length();
+        int diff = n - m;
+
+        if (diff < 0) {
+            swap(a, b);
+            diff = -diff;
+        }
+
+        while (diff--) {
+            b = '0' + b;
+        }
+
+        std::string to_ret;
+        int borrow = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            int d1 = a[i] - '0';
+            int d2 = b[i] - '0';
+            int sub = d1 - d2 - borrow;
+            if (sub < 0) {
+                sub += 10;
+                borrow = 1;
+            } 
+            else {
+                borrow = 0;
+            }
+            to_ret = std::to_string(sub) + to_ret;
+        }
+
+    while (to_ret[0] == '0' && to_ret.length() > 1) {
+        to_ret.erase(0, 1);
+    }
+    if (a < b) {
+        to_ret = '-' + to_ret;
+    }
+    return to_ret;
+}
+    
 }

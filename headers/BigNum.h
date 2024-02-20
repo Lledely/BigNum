@@ -55,8 +55,11 @@ namespace bignum{
             int64_t _fraction_shift;
             bool _is_neg;
 
-            const std::string _whole();
-            const std::string _frac();
+            const std::string _whole() const;
+            const std::string _frac() const;
+
+            static const std::string _str_sum(const std::string, const std::string);
+            static const std::string _str_sub(const std::string, const std::string);
 
     };
     const BigNum operator""_bn(long double);

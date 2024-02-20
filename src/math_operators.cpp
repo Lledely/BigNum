@@ -53,11 +53,57 @@ namespace bignum {
         //         to_ret.insert(0, "-");
         //     }
 
-            std::string left_str = left.to_string(), right_str = right.to_string();
-            
+            std::string left_whole = left._whole(), left_frac = left._frac(),
+                        right_whole = right._whole(), right_frac = right._frac();
+            if (left_frac.size() > right_frac.size()) {
+                while (left_frac.size() > right_frac.size()) {
+                    right_frac += '0';
+                }
+            }
+            else if (left_frac.size() < right_frac.size()) {
+                while (left_frac.size() < right_frac.size()) {
+                    left_frac += '0';
+                }
+            }
+            std::string sum_whole = BigNum::_str_sum(left_whole, right_whole), 
+                        sum_frac = BigNum::_str_sum(left_frac, right_frac);
+            if (sum_frac.size() > left_frac.size()) {
+                sum_whole = BigNum::_str_sum(sum_whole, "1");
+                sum_frac.erase(0, 1);
+            }
+            to_ret = sum_whole + "." + sum_frac;
         } 
         else {
-
+            std::string left_whole = left._whole(), left_frac = left._frac(),
+                        right_whole = right._whole(), right_frac = right._frac();
+            if (left_frac.size() > right_frac.size()) {
+                while (left_frac.size() > right_frac.size()) {
+                    right_frac += '0';
+                }
+            }
+            else if (left_frac.size() < right_frac.size()) {
+                while (left_frac.size() < right_frac.size()) {
+                    left_frac += '0';
+                }
+            }
+            std::string sub_whole = BigNum::_str_sub(left_whole, right_whole), 
+                        sub_frac = BigNum::_str_sub(left_frac, right_frac);
+            if (left._is_neg) {
+                std::string sub_whole = BigNum::_str_sub(right_whole, left_whole), 
+                            sub_frac = BigNum::_str_sub(right_whole, left_whole);
+            }
+            else {
+                std::string sub_whole = BigNum::_str_sub(left_whole, right_whole), 
+                            sub_frac = BigNum::_str_sub(left_frac, right_frac);
+            }
+            if (sub_frac[0] == '-') {
+                sub_frac.erase(0, 1);
+                sub_whole = BigNum::_str_sub(sub_whole, "1");
+            }
+            if (sub_whole[0] =='-') {
+                sub_whole.erase(0, 1);
+            }
+            to_ret = sub_whole + "." + sub_frac;
         }
         return BigNum(to_ret);
     }
