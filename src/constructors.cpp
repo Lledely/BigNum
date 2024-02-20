@@ -18,6 +18,10 @@ namespace bignum{
         else {
             _is_neg = false;
         }
+        while (new_string[0] == '0') {
+            --length;
+            new_string.erase(0, 1);
+        }
         if (dot_count == 1) {
             int64_t dot_pos = new_string.find('.');
             while (new_string[length - 1] == '0') {

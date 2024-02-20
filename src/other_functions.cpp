@@ -26,6 +26,9 @@ namespace bignum {
         if (to_ret[0] == '.') {
             to_ret.insert(0, "0");
         }
+        if (to_ret[to_ret.size() - 1] == '.') {
+            to_ret.pop_back();
+        }
         return to_ret;
     }
 
@@ -42,5 +45,17 @@ namespace bignum {
         BigNum tmp = *this;
         tmp._is_neg = !(tmp._is_neg);
         return tmp;
+    }
+
+    const BigNum operator""_bn(const char* num) {
+        return BigNum(num);
+    }
+
+    const std::string _whole() {
+        std::string num = this;
+    }
+
+    const std::string _frac() {
+
     }
 }
