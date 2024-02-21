@@ -31,7 +31,7 @@ int main() {
         {"1", "-84.138", "we can't divide by zero", "420.69"},
         {"-0.0119", "1", "we can't divide by zero", "-5"},
         {"0", "0", "we can't divide by zero", "0"},
-        {"0.0023", "-0.1", "we can't divide by zero", "1"}
+        {"0.0024", "-0.2", "we can't divide by zero", "1"}
     };
 
     std::cout << "Sums" << std::endl;

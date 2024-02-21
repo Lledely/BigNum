@@ -76,8 +76,13 @@ namespace bignum {
 
     const std::string BigNum::_str_sum(const std::string left, const std::string right) {
         std::string a = left, b = right;
-        if(a.size() < b.size()) {
-            swap(a, b);
+        while (a.size() != b.size()) {
+            if (a.size() > b.size()) {
+                b = "0" + b;
+            }
+            else {
+                a = "0" + a;
+            }
         }
 
         int j = a.size() - 1;
@@ -154,9 +159,10 @@ namespace bignum {
 
         std::string to_ret = num;
         if ((num[dot_pos + accuracy] - '0') >= 5) {
-            std::string frac = num.substr(dot_pos + 1, accuracy);
+            std::string frac = num.substr(dot_pos + 1, accuracy - 1);
             frac = BigNum::_str_sum(frac, "1");
-            if (frac.size() > accuracy) {
+            // std::cout << frac << std::endl;
+            if (frac.size() > accuracy - 1) {
                 frac.erase(0, 1);
                 std::string whole = num.substr(0, dot_pos);
                 whole = BigNum::_str_sum(whole, "1");
@@ -167,7 +173,7 @@ namespace bignum {
             }
         }
         else {
-            to_ret = to_ret.substr(0, dot_pos + accuracy + 1);
+            to_ret = to_ret.substr(0, dot_pos + accuracy);
         }
         return BigNum(to_ret);
     }

@@ -136,7 +136,7 @@ namespace bignum {
             l = r;
         }
 
-        l = BigNum::_round(l.to_string(), std::count(check.begin(), check.end(), '0'));
+        l = BigNum::_round(l.to_string(), 1 + std::count(check.begin(), check.end(), '0'));
 
         if (left._is_neg != right._is_neg) {
             if (l) {
