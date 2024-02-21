@@ -128,6 +128,8 @@ namespace bignum {
             }
         }
 
+        l = BigNum::_round(l.to_string(), std::count(check.begin(), check.end(), '0'));
+
         if (left._is_neg != right._is_neg) {
             return (-l);
         }

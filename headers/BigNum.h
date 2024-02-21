@@ -63,6 +63,8 @@ namespace bignum{
             static const std::string _str_sum(const std::string, const std::string);
             static const std::string _str_sub(const std::string, const std::string);
 
+            static const BigNum _round(const std::string, int);
+
     };
     const BigNum operator""_bn(long double);
 }

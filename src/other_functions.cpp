@@ -142,5 +142,38 @@ namespace bignum {
         os << num.to_string();
         return os;
     }
+
+    const BigNum BigNum::_round(const std::string num, int accuracy) {
+        if (num.size() < accuracy) {
+            return BigNum(num);
+        }
+        if (std::count(num.begin(), num.end(), '.') == 0) {
+            return BigNum(num);
+        }
+
+        int dot_pos = num.find('.');
+        if (num.size() - dot_pos < accuracy) {
+            return BigNum(num);
+        }
+
+        std::string to_ret = num;
+        if ((num[dot_pos + accuracy] - '0') >= 5) {
+            std::string frac = num.substr(dot_pos + 1, accuracy);
+            frac = BigNum::_str_sum(frac, "1");
+            if (frac.size() > accuracy) {
+                frac.erase(0, 1);
+                std::string whole = num.substr(0, dot_pos);
+                whole = BigNum::_str_sum(whole, "1");
+                to_ret = whole + "." + frac;
+            }
+            else {
+                to_ret = num.substr(0, dot_pos + 1) + frac;
+            }
+        }
+        else {
+            to_ret = to_ret.substr(0, dot_pos + accuracy + 1);
+        }
+        return BigNum(to_ret);
+    }
     
 }
