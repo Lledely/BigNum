@@ -134,24 +134,24 @@ namespace bignum {
         return l;
     }
 
-    BigNum operator+=(BigNum &left, const BigNum &right) {
-        left = (left + right);
-        return left;
+    BigNum& BigNum::operator+=(const BigNum &right) {
+        (*this) = ((*this) + right);
+        return (*this);
     }
 
-    BigNum operator-=(BigNum &left, const BigNum &right) {
-        left = (left - right);
-        return left;
+    BigNum& BigNum::operator-=(const BigNum &right) {
+        (*this) = ((*this) - right);
+        return (*this);
     }
 
-    BigNum operator*=(BigNum &left, const BigNum &right) {
-        left = (left * right);
-        return left;
+    BigNum& BigNum::operator*=(const BigNum &right) {
+        (*this) = ((*this) * right);
+        return (*this);
     }
 
-    BigNum operator/=(BigNum &left, const BigNum &right) {
-        left = (left / right);
-        return left;
+    BigNum& BigNum::operator/=(const BigNum &right) {
+        (*this) = ((*this) / right);
+        return (*this);
     }
 
 }

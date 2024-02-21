@@ -137,5 +137,10 @@ namespace bignum {
     const BigNum BigNum::_abs() const {
         return this->_is_neg ? -(*this) : *this;
     }
+
+    std::ostream& operator<<(std::ostream& os, const BigNum& num) {
+        os << num.to_string();
+        return os;
+    }
     
 }

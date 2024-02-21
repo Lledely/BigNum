@@ -31,10 +31,10 @@ namespace bignum{
             friend const BigNum operator*(const BigNum &left, const BigNum &right);
             friend const BigNum operator/(const BigNum &left, const BigNum &right);
 
-            BigNum operator+=(const BigNum &right);
-            BigNum operator-=(const BigNum &right);
-            BigNum operator*=(const BigNum &right);
-            BigNum operator/=(const BigNum &right);
+            BigNum& operator+=(const BigNum &right);
+            BigNum& operator-=(const BigNum &right);
+            BigNum& operator*=(const BigNum &right);
+            BigNum& operator/=(const BigNum &right);
 
             BigNum operator-() const;
 
@@ -48,6 +48,7 @@ namespace bignum{
             friend const BigNum operator""_bn(const char*);
             std::string to_string() const;
             explicit operator bool() const;
+            friend std::ostream& operator <<(std::ostream&, const BigNum&);
 
         private:
 
