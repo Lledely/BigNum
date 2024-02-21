@@ -33,7 +33,12 @@ namespace bignum{
                 new_string.pop_back();
                 --length;
             }
-            _fraction_shift = length - dot_pos;
+            if (new_string.back() != '.') {
+                _fraction_shift = length - dot_pos;
+            }
+            else {
+                _fraction_shift = 0;
+            }
             --length;
             new_string = new_string.substr(0, dot_pos) + new_string.substr(dot_pos + 1, length - dot_pos);
         }

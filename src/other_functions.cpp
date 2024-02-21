@@ -4,9 +4,6 @@ namespace bignum {
 
     std::string BigNum::to_string() const {
         std::string to_ret = "";
-        if (_is_neg) {
-            to_ret += '-';
-        }
         for (long long i = 0; i <  _chunks.size(); ++i) {
             if (i != 0) {
                 long long tmp = 10, tmp_cnt = 1;
@@ -20,8 +17,14 @@ namespace bignum {
             }
             to_ret += std::to_string(_chunks[i]);
         }
+        while (_fraction_shift > to_ret.size()) {
+            to_ret = "0" + to_ret;
+        }
         if (_fraction_shift != 0) {
             to_ret.insert(to_ret.size() - _fraction_shift + 1, ".");
+        }
+        if (_is_neg) {
+            to_ret = "-" + to_ret;
         }
         if (to_ret[0] == '.') {
             to_ret.insert(0, "0");

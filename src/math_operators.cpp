@@ -117,8 +117,8 @@ namespace bignum {
             right_copy = right_copy * special_ten;
             r = r * special_ten;
         }
-        // std::cout << (r - l)._abs().to_string() << acc.to_string() << std::endl;
         while ((r - l)._abs() > acc) {
+        // std::cout << (r - l)._abs().to_string() << std::endl;
             BigNum mid = (l + r) * special_num;
             if (mid * right_abs <= left_abs) {
                 l = mid;
