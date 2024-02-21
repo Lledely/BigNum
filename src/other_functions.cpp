@@ -53,10 +53,6 @@ namespace bignum {
         return tmp;
     }
 
-    const BigNum operator""_bn(const char* num) {
-        return BigNum(num);
-    }
-
     const std::string BigNum::_whole() const {
         std::string num = (*this).to_string();
         if (num[0] == '-') {
@@ -176,4 +172,9 @@ namespace bignum {
         return BigNum(to_ret);
     }
     
+}
+
+bignum::BigNum operator""_bn(const char* num, size_t sz) {
+    bignum::BigNum res(num);
+    return res;
 }

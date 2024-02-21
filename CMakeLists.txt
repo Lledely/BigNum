@@ -11,10 +11,10 @@ target_include_directories(big_num PUBLIC headers)
 add_executable(Main main.cpp)
 target_link_libraries(Main PRIVATE big_num)
 
-add_executable(Test_Math test_math.cpp)
+add_executable(Test_Math tests_math.cpp)
 target_link_libraries(Test_Math PRIVATE big_num)
 
-add_executable(Test_Logic test_logic.cpp)
+add_executable(Test_Logic tests_logic.cpp)
 target_link_libraries(Test_Logic PRIVATE big_num)
 
 add_executable(Test_Pi test_pi.cpp)

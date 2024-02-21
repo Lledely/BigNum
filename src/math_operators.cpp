@@ -26,6 +26,9 @@ namespace bignum {
                 sum_frac.erase(0, 1);
             }
             to_ret = sum_whole + "." + sum_frac;
+            if (left._is_neg) {
+                to_ret = "-" + to_ret;
+            }
         } 
         else {
             std::string left_whole = left._whole(), right_whole = right._whole(), left_frac = left._frac(), right_frac = right._frac();
@@ -49,10 +52,11 @@ namespace bignum {
             // std::cout << tmp_left << " " << tmp_right << std::endl;
             // std::cout << left._abs().to_string() << " " << right._abs().to_string() << std::endl;
             if (left._abs() >= right._abs()) {
+                to_ret = (left._is_neg) ? "-": "";
                 tmp_left = BigNum::_str_sub(tmp_left, tmp_right);
             }
             else {
-                to_ret = "-";
+                to_ret = (right._is_neg) ? "-": "";
                 tmp_left = BigNum::_str_sub(tmp_right, tmp_left);
             }
             to_ret += tmp_left.substr(0, tmp_left.size() - left_frac.size()) + "." + tmp_left.substr(tmp_left.size() - left_frac.size(), left_frac.size());
@@ -112,7 +116,7 @@ namespace bignum {
         check += "1";
         BigNum acc(check);
         
-        BigNum special_num("0.5"), special_one("1"), special_ten("10"), left_abs = left._abs(), right_abs = right._abs(), l("0"), r = left._abs(), right_copy = right;
+        BigNum special_num("0.5"), special_one("1"), special_ten("10"), left_abs = left._abs(), right_abs = right._abs(), l("0"), r = left._abs(), right_copy = right._abs();
         while (right_copy < special_one) {
             right_copy = right_copy * special_ten;
             r = r * special_ten;
@@ -128,10 +132,16 @@ namespace bignum {
             }
         }
 
+        if ((r * right_abs - left_abs)._abs() < (l * right_abs - left_abs)._abs()) {
+            l = r;
+        }
+
         l = BigNum::_round(l.to_string(), std::count(check.begin(), check.end(), '0'));
 
         if (left._is_neg != right._is_neg) {
-            return (-l);
+            if (l) {
+                return (-l);
+            }
         }
         return l;
     }

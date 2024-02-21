@@ -45,7 +45,6 @@ namespace bignum{
             friend bool operator<(const BigNum &left, const BigNum &right);
             friend bool operator>(const BigNum &left, const BigNum &right);
 
-            friend const BigNum operator""_bn(const char*);
             std::string to_string() const;
             explicit operator bool() const;
             friend std::ostream& operator <<(std::ostream&, const BigNum&);
@@ -68,3 +67,5 @@ namespace bignum{
     };
     const BigNum operator""_bn(long double);
 }
+
+bignum::BigNum operator""_bn(const char* num, size_t sz);
