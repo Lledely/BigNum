@@ -28,51 +28,13 @@ namespace bignum {
             to_ret = sum_whole + "." + sum_frac;
         } 
         else {
-            // std::string left_whole, right_whole, left_frac, right_frac;
-
-            // if (left._abs() >= right._abs()) {
-            //     left_whole = left._whole(), left_frac = left._frac();
-            //     right_whole = right._whole(), right_frac = right._frac();
-            // }
-            // else {
-            //     left_whole = right._whole(), left_frac = right._frac();
-            //     right_whole = left._whole(), right_frac = left._frac();
-            // }
-            // while (left_frac.size() != right_frac.size()) {
-            //     if (left_frac.size() < right_frac.size()) {
-            //         left_frac += "0";
-            //     }
-            //     else {
-            //         right_frac += "0";
-            //     }
-            // }
-            // std::string sub_whole = BigNum::_str_sub(left_whole, right_whole),
-            //             sub_frac = BigNum::_str_sub(left_frac, right_frac);
-            // if (sub_frac[0] == '-') {
-            //     sub_frac.erase(0, 1);
-            //     std::string tmp = "1";
-            //     for (int i = 0; i < sub_frac.size(); ++i) {
-            //         tmp += "0";
-            //     }
-            //     sub_frac = BigNum::_str_sub(tmp, sub_frac);
-            //     if (left._abs() < right._abs()) {
-            //         sub_whole.erase(0, 1);
-            //         sub_whole = BigNum::_str_sum(sub_whole, "1");
-            //         sub_whole.insert('-', 0);
-            //     }
-            //     else {
-            //         sub_whole = BigNum::_str_sub(sub_whole, "1");
-            //     }
-            // }
-            // to_ret = sub_whole + "." + sub_frac;
-
             std::string left_whole = left._whole(), right_whole = right._whole(), left_frac = left._frac(), right_frac = right._frac();
             while (left_whole.size() != right_whole.size()) {
                 if (left_whole.size() <  right_whole.size()) {
                     left_whole = "0" + left_whole;
                 }
                 else {
-                    right_whole = "0" + left_whole;
+                    right_whole = "0" + right_whole;
                 }
             }
             while (left_frac.size() != right_frac.size()) {
@@ -85,7 +47,7 @@ namespace bignum {
             }
             std::string tmp_left = left_whole + left_frac, tmp_right = right_whole + right_frac;
             // std::cout << tmp_left << " " << tmp_right << std::endl;
-            // std::cout << left._abs().to_string() << std::endl;
+            // std::cout << left._abs().to_string() << " " << right._abs().to_string() << std::endl;
             if (left._abs() >= right._abs()) {
                 tmp_left = BigNum::_str_sub(tmp_left, tmp_right);
             }
@@ -103,22 +65,71 @@ namespace bignum {
     }
 
     const BigNum operator*(const BigNum &left, const BigNum &right) {
+
         std::string tmp_left = left._whole() + left._frac(), tmp_right = right._whole() + right._frac();
-        std::string to_ret(tmp_left.size() + tmp_right.size(), '0');
-        for (size_t i = 0; i < tmp_left.size(); ++i) {
-        	for (int j = 0, carry = 0; j < (int) tmp_right.size() || carry; ++j) {
-        		unsigned long long cur = (to_ret[i + j] - '0') + (to_ret[i] - '0') * 1ull * (j < (int)tmp_right.size() ? tmp_right[j] : 0) + carry;
-        		to_ret[i + j] = '0' + (cur % 10);
-        		carry = int (cur / 10);
-        	}
+        int n1 = tmp_left.size(), n2 = tmp_right.size();
+        std::string result(n1 + n2, '0');
+        for (int i = n1 - 1; i >= 0; i--) {
+            int carry = 0;
+            for (int j = n2 - 1; j >= 0; j--) {
+                int product = (tmp_left[i] - '0') * (tmp_right[j] - '0') + carry + (result[i + j + 1] - '0');
+                result[i + j + 1] = product % 10 + '0';
+                carry = product / 10;
+            }
+            result[i] += carry;
         }
+
+        if (left._fraction_shift == 0 && right._fraction_shift == 0) {
+            result.insert(result.size() - 2, ".");
+        }
+        else if (left._fraction_shift == 0) {
+            result.insert(result.size() - right._fraction_shift, ".");
+        }
+        else if (right._fraction_shift == 0) {
+            result.insert(result.size() - left._fraction_shift, ".");
+        }
+        else {
+            result.insert(result.size() - left._fraction_shift - right._fraction_shift + 2, ".");
+        }
+
         if (left._is_neg != right._is_neg) {
-            to_ret = "-" + to_ret;
+            result = "-" + result;
         }
-        if (left._fraction_shift + right._fraction_shift != 0) {
-            to_ret.insert(to_ret.size() - left._fraction_shift - right._fraction_shift + 1, ".");
+
+        return BigNum(result);
+
+    }
+
+    const BigNum operator/(const BigNum &left, const BigNum &right) {
+        if (!right) {
+            throw std::runtime_error("Can't divide by 0");
         }
-        return BigNum(to_ret);
+        int accuracy = std::max(left._fraction_shift, right._fraction_shift);
+        std::string check = "0.";
+        for (int i = 0; i < accuracy; ++i) {
+            check += "0";
+        }
+        check += "1";
+        BigNum acc(check);
+        
+        BigNum special_num("0.5"), special_one("1"), special_ten("10"), left_abs = left._abs(), right_abs = right._abs(), l("0"), r = left, right_copy = right;
+        while (right_copy < special_one) {
+            right_copy = right_copy * special_ten;
+            r = r * special_ten;
+        }
+        // std::cout << (r - l)._abs().to_string() << acc.to_string() << std::endl;
+        while ((r - l)._abs() > acc) {
+            BigNum mid = (l + r) * special_num;
+            if (mid * right_abs <= left_abs) {
+                l = mid;
+            }
+            else {
+                r = mid;
+            }
+        }
+
+        return l;
+
     }
 
 }

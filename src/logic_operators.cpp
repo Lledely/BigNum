@@ -10,7 +10,24 @@ namespace bignum {
             return false;
         }
 
-        std::string tmp_left = left.to_string(), tmp_right = right.to_string();
+        std::string left_whole = left._whole(), right_whole = right._whole(), left_frac = left._frac(), right_frac = right._frac();
+        while (left_whole.size() != right_whole.size()) {
+            if (left_whole.size() <  right_whole.size()) {
+                left_whole = "0" + left_whole;
+            }
+            else {
+                right_whole = "0" + right_whole;
+            }
+        }
+        while (left_frac.size() != right_frac.size()) {
+            if (left_frac.size() <  right_frac.size()) {
+                left_frac += "0";
+            }
+            else {
+                right_frac += "0";
+            }
+        }
+        std::string tmp_left = left_whole + left_frac, tmp_right = right_whole + right_frac;
         return tmp_left <= tmp_right;
 
         // if (left._chunks.size() > right._chunks.size()) {
