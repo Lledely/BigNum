@@ -2,14 +2,17 @@
 #include <iostream>
 
 int main() {
-    bignum::BigNum a = bignum::BigNum(std::string("1.5"));
-    bignum::BigNum b = bignum::BigNum("25");
+    bignum::BigNum a = bignum::BigNum(std::string("69"));
+    bignum::BigNum b = bignum::BigNum("2.4");
     // bignum::BigNum d = bignum::BigNum("0.1");
     std::cout << "a = " << a.to_string() << std::endl;
     std::cout << "b = " << b.to_string() << std::endl;
-    bignum::BigNum c = a / b;
+
+    a += b;
+    std::cout << a.to_string() << std::endl;
+    // bignum::BigNum c = a / b;
     // std::cout << ((a - b) <= d);
-    std::cout << a.to_string() << " / " << b.to_string() << " = " << c.to_string() << std::endl;
+    // std::cout << a.to_string() << " / " << b.to_string() << " = " << c.to_string() << std::endl;
     // std::cout << (a - b).to_string() << " " << d.to_string() << " " << ((a - b) <= d) << std::endl;
 
     // bignum::BigNum x = bignum::BigNum("2.0000000");

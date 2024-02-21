@@ -112,7 +112,7 @@ namespace bignum {
         check += "1";
         BigNum acc(check);
         
-        BigNum special_num("0.5"), special_one("1"), special_ten("10"), left_abs = left._abs(), right_abs = right._abs(), l("0"), r = left, right_copy = right;
+        BigNum special_num("0.5"), special_one("1"), special_ten("10"), left_abs = left._abs(), right_abs = right._abs(), l("0"), r = left._abs(), right_copy = right;
         while (right_copy < special_one) {
             right_copy = right_copy * special_ten;
             r = r * special_ten;
@@ -128,8 +128,30 @@ namespace bignum {
             }
         }
 
+        if (left._is_neg != right._is_neg) {
+            return (-l);
+        }
         return l;
+    }
 
+    BigNum operator+=(BigNum &left, const BigNum &right) {
+        left = (left + right);
+        return left;
+    }
+
+    BigNum operator-=(BigNum &left, const BigNum &right) {
+        left = (left - right);
+        return left;
+    }
+
+    BigNum operator*=(BigNum &left, const BigNum &right) {
+        left = (left * right);
+        return left;
+    }
+
+    BigNum operator/=(BigNum &left, const BigNum &right) {
+        left = (left / right);
+        return left;
     }
 
 }

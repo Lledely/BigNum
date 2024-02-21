@@ -31,10 +31,10 @@ namespace bignum{
             friend const BigNum operator*(const BigNum &left, const BigNum &right);
             friend const BigNum operator/(const BigNum &left, const BigNum &right);
 
-            const BigNum& operator+=(const BigNum &right);
-            const BigNum& operator-=(const BigNum &right);
-            const BigNum& operator*=(const BigNum &right);
-            const BigNum& operator/=(const BigNum &right);
+            BigNum operator+=(const BigNum &right);
+            BigNum operator-=(const BigNum &right);
+            BigNum operator*=(const BigNum &right);
+            BigNum operator/=(const BigNum &right);
 
             BigNum operator-() const;
 
