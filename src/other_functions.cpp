@@ -26,6 +26,9 @@ namespace bignum {
         if (to_ret[0] == '.') {
             to_ret.insert(0, "0");
         }
+        else if (to_ret[1] == '.' && to_ret[0] == '-') {
+            to_ret.insert(1, "0");
+        }
         if (to_ret[to_ret.size() - 1] == '.') {
             to_ret.pop_back();
         }
@@ -41,7 +44,7 @@ namespace bignum {
         return false;
     }
 
-    const BigNum BigNum::operator -() {
+    BigNum BigNum::operator-() const {
         BigNum tmp = *this;
         tmp._is_neg = !(tmp._is_neg);
         return tmp;
@@ -79,7 +82,7 @@ namespace bignum {
         }
 
         int j = a.size() - 1;
-        for(int i=b.size() - 1; i>=0; --i, --j) {
+        for(int i=b.size() - 1; i >= 0; --i, --j) {
             a[j]+=(b[i] - '0');
         }
 
@@ -104,41 +107,32 @@ namespace bignum {
 
     const std::string BigNum::_str_sub(const std::string left, const std::string right) {
         std::string a = left, b = right;
-        int n = a.length(), m = b.length();
-        int diff = n - m;
+        std::string to_ret = "";
+        // std::cout << a << " " << b << std::endl;
 
-        if (diff < 0) {
-            swap(a, b);
-            diff = -diff;
-        }
-
-        while (diff--) {
-            b = '0' + b;
-        }
-
-        std::string to_ret;
-        int borrow = 0;
-        for (int i = n - 1; i >= 0; i--) {
-            int d1 = a[i] - '0';
-            int d2 = b[i] - '0';
-            int sub = d1 - d2 - borrow;
-            if (sub < 0) {
-                sub += 10;
-                borrow = 1;
-            } 
-            else {
-                borrow = 0;
+        bool mider = false;
+        for (int i = a.size() - 1; i >= 0; --i) {
+            int res = (a[i] - '0') - (b[i] - '0');
+            if (mider) {
+                --res;
+                mider = false;
             }
-            to_ret = std::to_string(sub) + to_ret;
+            if (res < 0) {
+                res += 10;
+                mider = true;
+            }
+            to_ret += std::to_string(res);
         }
+        if (mider) {
+            to_ret.push_back('-');
+        }
+        std::reverse(to_ret.begin(), to_ret.end());
 
-    while (to_ret[0] == '0' && to_ret.length() > 1) {
-        to_ret.erase(0, 1);
+        return to_ret;
     }
-    if (a < b) {
-        to_ret = '-' + to_ret;
+
+    const BigNum BigNum::_abs() const {
+        return this->_is_neg ? -(*this) : *this;
     }
-    return to_ret;
-}
     
 }

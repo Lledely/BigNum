@@ -36,7 +36,7 @@ namespace bignum{
             const BigNum& operator*=(const BigNum &right);
             const BigNum& operator/=(const BigNum &right);
 
-            const BigNum operator-();
+            BigNum operator-() const;
 
             friend bool operator<=(const BigNum &left, const BigNum &right);
             friend bool operator>=(const BigNum &left, const BigNum &right);
@@ -57,6 +57,7 @@ namespace bignum{
 
             const std::string _whole() const;
             const std::string _frac() const;
+            const BigNum _abs() const;
 
             static const std::string _str_sum(const std::string, const std::string);
             static const std::string _str_sub(const std::string, const std::string);

@@ -10,29 +10,32 @@ namespace bignum {
             return false;
         }
 
-        if (left._chunks.size() > right._chunks.size()) {
-            if (left._is_neg) {
-                return true;
-            }
-            return false;
-        }
-        else if (left._chunks.size() < right._chunks.size()) {
-            if (left._is_neg) {
-                return false;
-            }
-            return true;
-        }
+        std::string tmp_left = left.to_string(), tmp_right = right.to_string();
+        return tmp_left <= tmp_right;
 
-        int tmp = left._is_neg ? -1 : 1;
-        for (int i = 0; i < left._chunks.size(); ++i) {
-            int tmp_chunk = 0;
-            tmp_chunk += left._chunks[i];
-            tmp_chunk -= right._chunks[i];
-            if (tmp * tmp_chunk > 0) {
-                return false;
-            }
-        }
-        return true;
+        // if (left._chunks.size() > right._chunks.size()) {
+        //     if (left._is_neg) {
+        //         return true;
+        //     }
+        //     return false;
+        // }
+        // else if (left._chunks.size() < right._chunks.size()) {
+        //     if (left._is_neg) {
+        //         return false;
+        //     }
+        //     return true;
+        // }
+
+        // int tmp = left._is_neg ? -1 : 1;
+        // for (int i = 0; i < left._chunks.size(); ++i) {
+        //     int tmp_chunk = 0;
+        //     tmp_chunk += left._chunks[i];
+        //     tmp_chunk -= right._chunks[i];
+        //     if (tmp * tmp_chunk < 0) {
+        //         return false;
+        //     }
+        // }
+        // return true;
     }
     
     bool operator==(const BigNum &left, const BigNum &right) {
