@@ -102,4 +102,23 @@ namespace bignum {
         return (left + (-right));
     }
 
+    const BigNum operator*(const BigNum &left, const BigNum &right) {
+        std::string tmp_left = left._whole() + left._frac(), tmp_right = right._whole() + right._frac();
+        std::string to_ret(tmp_left.size() + tmp_right.size(), '0');
+        for (size_t i = 0; i < tmp_left.size(); ++i) {
+        	for (int j = 0, carry = 0; j < (int) tmp_right.size() || carry; ++j) {
+        		unsigned long long cur = (to_ret[i + j] - '0') + (to_ret[i] - '0') * 1ull * (j < (int)tmp_right.size() ? tmp_right[j] : 0) + carry;
+        		to_ret[i + j] = '0' + (cur % 10);
+        		carry = int (cur / 10);
+        	}
+        }
+        if (left._is_neg != right._is_neg) {
+            to_ret = "-" + to_ret;
+        }
+        if (left._fraction_shift + right._fraction_shift != 0) {
+            to_ret.insert(to_ret.size() - left._fraction_shift - right._fraction_shift + 1, ".");
+        }
+        return BigNum(to_ret);
+    }
+
 }
